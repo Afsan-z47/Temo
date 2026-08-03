@@ -37,3 +37,68 @@ tasks.register('dist', Jar) {
         into 'assets'
     }
 }
+
+/**
+ * Builds a self-contained native app for the CURRENT operating system using
+ * the JDK's built-in jpackage tool: a folder containing a real executable
+ * (PROJECT Enigma.exe / PROJECT Enigma.app / a Linux binary) plus a bundled
+ * Java runtime. Whoever receives it does NOT need Java installed at all --
+ * they just run the executable.
+ *
+ * Uses --runtime-image (the whole running JDK, as-is) rather than letting
+ * jpackage invoke jlink to build a trimmed-down runtime. jlink verifies a
+ * checksum of java.security against the value recorded when the JDK was
+ * built; distro-packaged JDKs that patch java.security to hook into the
+ * OS's system-wide crypto policy (Fedora/RHEL's java-*-openjdk packages do
+ * this) fail that check with "java.security has been modified", even though
+ * nothing is actually wrong. --runtime-image sidesteps jlink entirely, at
+ * the cost of a larger app image (the full JDK instead of a trimmed
+ * runtime) -- worth it for not depending on which JDK distribution built it.
+ *
+ * jpackage cannot cross-compile: run this task on Windows to get a Windows
+ * app, on macOS for a macOS app, on Linux for a Linux app. For building all
+ * three from one push, see .github/workflows/package.yml.
+ *
+ * Output: lwjgl3/build/jpackage/PROJECT Enigma/
+ */
+tasks.register('jpackageImage', Exec) {
+    group = 'distribution'
+    description = 'Builds a self-contained native app image (bundled JRE, no installer) for the current OS.'
+    dependsOn tasks.named('dist')
+
+    // Captured at configuration time -- reading project/application state
+    // from inside doFirst (execution time) is deprecated under Gradle's
+    // configuration cache.
+    def appVersion = project.version.toString()
+    def mainClassName = application.mainClass.get()
+    def javaHome = System.getProperty('java.home')
+    def isWindows = System.getProperty('os.name').toLowerCase().contains('windows')
+
+    doFirst {
+        def outputDir = layout.buildDirectory.dir('jpackage').get().asFile
+        // jpackage refuses to write into a directory that already exists.
+        if (outputDir.exists()) {
+            outputDir.deleteDir()
+        }
+        outputDir.mkdirs()
+
+        def jpackageExe = new File(javaHome, isWindows ? 'bin/jpackage.exe' : 'bin/jpackage')
+        if (!jpackageExe.exists()) {
+            throw new GradleException("jpackage not found at ${jpackageExe}. Run this with a full JDK " +
+                    "(17+), not a JRE-only install -- jpackage ships with the JDK.")
+        }
+
+        def distJar = tasks.named('dist', Jar).get().archiveFile.get().asFile
+
+        commandLine jpackageExe.absolutePath,
+                '--type', 'app-image',
+                '--name', 'PROJECT Enigma',
+                '--vendor', 'PROJECT Enigma',
+                '--app-version', appVersion,
+                '--runtime-image', javaHome,
+                '--input', distJar.parentFile.absolutePath,
+                '--main-jar', distJar.name,
+                '--main-class', mainClassName,
+                '--dest', outputDir.absolutePath
+    }
+}
