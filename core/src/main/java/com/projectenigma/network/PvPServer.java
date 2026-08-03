@@ -1,6 +1,5 @@
 package com.projectenigma.network;
 
-import com.badlogic.gdx.Gdx;
 import com.projectenigma.model.BattleAction;
 import com.projectenigma.model.HeroClass;
 
@@ -30,7 +29,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  *   <li>Package the event as a {@code Runnable} and add it to a thread-safe
  *       {@link ConcurrentLinkedQueue} -- no libGDX or game-state calls happen
  *       on a network thread itself.</li>
- *   <li>Call {@code Gdx.app.postRunnable(this::drainIncoming)} to schedule
+ *   <li>Call {@code MainThreadGateway.post(this::drainIncoming)} to schedule
  *       the drain on the render thread very soon (before the next frame).</li>
  * </ol>
  * {@link #drainIncoming()} then runs entirely on the render thread and is
@@ -72,7 +71,7 @@ public final class PvPServer implements AutoCloseable {
         acceptThread = new Thread(this::acceptLoop, "pvp-server-accept");
         acceptThread.setDaemon(true);
         acceptThread.start();
-        Gdx.app.log("PvPServer", "Listening on TCP " + serverSocket.getLocalPort());
+        MainThreadGateway.log("PvPServer", "Listening on TCP " + serverSocket.getLocalPort());
     }
 
     /** The actual bound port -- same as the constructor argument unless it was 0 (bind to any free port). */
@@ -84,13 +83,14 @@ public final class PvPServer implements AutoCloseable {
         while (!closing) {
             try {
                 Socket socket = serverSocket.accept();
+                MainThreadGateway.log("PvPServer", "accepted raw connection from " + socket.getRemoteSocketAddress());
                 acceptGuest(socket);
             } catch (IOException exception) {
                 // serverSocket.close() (see close()) also unblocks accept()
                 // with an IOException; only worth logging if this wasn't
                 // an intentional shutdown.
                 if (!closing) {
-                    Gdx.app.log("PvPServer", "Accept failed: " + exception.getMessage());
+                    MainThreadGateway.log("PvPServer", "Accept failed: " + exception.getMessage());
                 }
             }
         }
@@ -121,7 +121,7 @@ public final class PvPServer implements AutoCloseable {
             });
             enqueue(() -> listener.onGuestConnected(isReconnect));
         } catch (IOException exception) {
-            Gdx.app.log("PvPServer", "Failed to establish guest connection: " + exception.getMessage());
+            MainThreadGateway.log("PvPServer", "Failed to establish guest connection: " + exception.getMessage());
             closeQuietly(socket);
         }
     }
@@ -162,13 +162,13 @@ public final class PvPServer implements AutoCloseable {
         try {
             connection.send(state);
         } catch (IOException exception) {
-            Gdx.app.log("PvPServer", "Broadcast failed: " + exception.getMessage());
+            MainThreadGateway.log("PvPServer", "Broadcast failed: " + exception.getMessage());
         }
     }
 
     private void enqueue(Runnable task) {
         incoming.add(task);
-        Gdx.app.postRunnable(this::drainIncoming);
+        MainThreadGateway.post(this::drainIncoming);
     }
 
     private static void closeQuietly(Socket socket) {
@@ -191,6 +191,6 @@ public final class PvPServer implements AutoCloseable {
         if (connection != null) {
             connection.close();
         }
-        Gdx.app.log("PvPServer", "Server stopped.");
+        MainThreadGateway.log("PvPServer", "Server stopped.");
     }
 }

@@ -1,6 +1,5 @@
 package com.projectenigma.network;
 
-import com.badlogic.gdx.Gdx;
 import com.projectenigma.model.BattleAction;
 import com.projectenigma.model.HeroClass;
 
@@ -35,7 +34,11 @@ public final class PvPClient implements AutoCloseable {
     }
 
     private static final int RECONNECT_INTERVAL_SECONDS = 3;
-    private static final int CONNECT_TIMEOUT_MILLIS = 5000;
+    // Deliberately well under any caller's own wait/assert timeout (e.g. the
+    // 5s poll in PvPEndToEndTest) so a stuck attempt fails, logs, and the
+    // 3s retry gets another shot inside that window -- instead of the first
+    // attempt still being in flight when the caller's own timeout fires.
+    private static final int CONNECT_TIMEOUT_MILLIS = 1500;
 
     private static final EventListener NO_OP = new EventListener() {
         @Override public void onConnected(boolean isReconnect) { }
@@ -67,6 +70,7 @@ public final class PvPClient implements AutoCloseable {
     public void connect(String host, int port) {
         this.hostAddress = host;
         this.hostPort = port;
+        MainThreadGateway.log("PvPClient", "connect() called for " + host + ":" + port);
         startReconnectLoop(0);
     }
 
@@ -102,7 +106,7 @@ public final class PvPClient implements AutoCloseable {
         try {
             current.send(payload);
         } catch (IOException exception) {
-            Gdx.app.log("PvPClient", "Send failed: " + exception.getMessage());
+            MainThreadGateway.log("PvPClient", "Send failed: " + exception.getMessage());
         }
     }
 
@@ -129,6 +133,7 @@ public final class PvPClient implements AutoCloseable {
             return;
         }
         reconnectLoopActive = true;
+        MainThreadGateway.log("PvPClient", "scheduling attemptConnect(), initialDelaySeconds=" + initialDelaySeconds);
         reconnectTask = reconnectExecutor.scheduleWithFixedDelay(this::attemptConnect,
                 initialDelaySeconds, RECONNECT_INTERVAL_SECONDS, TimeUnit.SECONDS);
     }
@@ -142,9 +147,11 @@ public final class PvPClient implements AutoCloseable {
     }
 
     private void attemptConnect() {
+        MainThreadGateway.log("PvPClient", "attemptConnect() starting, thread=" + Thread.currentThread().getName());
         try {
             Socket socket = new Socket();
             socket.connect(new InetSocketAddress(hostAddress, hostPort), CONNECT_TIMEOUT_MILLIS);
+            MainThreadGateway.log("PvPClient", "raw socket connected, wrapping in PvPConnection");
             boolean isReconnect = everConnected;
             everConnected = true;
             connection = new PvPConnection(socket, new PvPConnection.Listener() {
@@ -162,17 +169,22 @@ public final class PvPClient implements AutoCloseable {
                     startReconnectLoop(RECONNECT_INTERVAL_SECONDS);
                 }
             });
+            MainThreadGateway.log("PvPClient", "PvPConnection established, isReconnect=" + isReconnect);
             stopReconnectLoop();
             enqueue(() -> listener.onConnected(isReconnect));
         } catch (IOException exception) {
-            Gdx.app.log("PvPClient", "Connect attempt to " + hostAddress + ":" + hostPort
-                    + " failed: " + exception.getMessage());
+            MainThreadGateway.log("PvPClient", "Connect attempt to " + hostAddress + ":" + hostPort
+                    + " failed: " + exception.getClass().getSimpleName() + " - " + exception.getMessage());
+        } catch (RuntimeException exception) {
+            MainThreadGateway.log("PvPClient", "attemptConnect() threw unexpectedly: "
+                    + exception.getClass().getName() + " - " + exception.getMessage());
+            throw exception;
         }
     }
 
     private void enqueue(Runnable task) {
         incoming.add(task);
-        Gdx.app.postRunnable(this::drainIncoming);
+        MainThreadGateway.post(this::drainIncoming);
     }
 
     @Override
