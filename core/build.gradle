@@ -1,0 +1,12 @@
+dependencies {
+    api "com.badlogicgames.gdx:gdx:${providers.gradleProperty('gdxVersion').get()}"
+
+    // LAN PvP (Phase 1) uses plain java.net.Socket + java.io.ObjectOutputStream/
+    // ObjectInputStream (see network/PvPConnection.java) -- no networking
+    // library dependency needed. An earlier version of this used KryoNet;
+    // see DESIGN.md's networking notes for why that was replaced.
+
+    testImplementation platform("org.junit:junit-bom:${providers.gradleProperty('junitVersion').get()}")
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
