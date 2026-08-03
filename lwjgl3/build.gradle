@@ -1,0 +1,39 @@
+plugins {
+    id 'application'
+}
+
+dependencies {
+    implementation project(':core')
+    implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:${providers.gradleProperty('gdxVersion').get()}"
+    implementation "com.badlogicgames.gdx:gdx-platform:${providers.gradleProperty('gdxVersion').get()}:natives-desktop"
+}
+
+application {
+    mainClass = 'com.projectenigma.lwjgl3.Lwjgl3Launcher'
+}
+
+tasks.named('run', JavaExec) {
+    workingDir = rootProject.projectDir
+    standardInput = System.in
+    if (System.getProperty('os.name').toLowerCase().contains('mac')) {
+        jvmArgs '-XstartOnFirstThread'
+    }
+}
+
+tasks.register('dist', Jar) {
+    group = 'distribution'
+    description = 'Builds a runnable desktop jar.'
+    archiveFileName = 'PROJECT-Enigma.jar'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes 'Main-Class': application.mainClass.get()
+    }
+    dependsOn configurations.runtimeClasspath
+    from sourceSets.main.output
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    from(rootProject.file('assets')) {
+        into 'assets'
+    }
+}

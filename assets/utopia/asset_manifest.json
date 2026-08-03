@@ -1,0 +1,765 @@
+{
+  "pack": "Utopia Pixel Asset Pack",
+  "version": "1.2.0",
+  "palette": {
+    "white": "#F6F4EC",
+    "off_white": "#DEDDD4",
+    "light": "#C3CAD0",
+    "mid": "#8F9AA5",
+    "dark": "#3B4652",
+    "ink": "#1D252E",
+    "red": "#E03731",
+    "red_dark": "#A32623",
+    "blue": "#2170D0",
+    "blue_light": "#5BB7F4",
+    "blue_glass": "#2A77B2",
+    "green": "#4B844E",
+    "green_light": "#70A759",
+    "gold": "#EAB036",
+    "shadow": "#2D343A",
+    "skin_light": "#EBB58E",
+    "skin_tan": "#BE7C52",
+    "skin_dark": "#704632",
+    "hair_brown": "#4D2E1F",
+    "hair_black": "#1B1C1F",
+    "hair_blonde": "#D8AE5D"
+  },
+  "filtering": "Nearest",
+  "playableCharacters": {
+    "warrior": {
+      "topdown": {
+        "file": "characters/topdown/warrior_topdown_64x96.png",
+        "frameWidth": 64,
+        "frameHeight": 96,
+        "columns": 6,
+        "rows": {
+          "down": {
+            "row": 0,
+            "idle": [
+              0,
+              1
+            ],
+            "walk": [
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "left": {
+            "row": 1,
+            "idle": [
+              0,
+              1
+            ],
+            "walk": [
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "right": {
+            "row": 2,
+            "idle": [
+              0,
+              1
+            ],
+            "walk": [
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "up": {
+            "row": 3,
+            "idle": [
+              0,
+              1
+            ],
+            "walk": [
+              2,
+              3,
+              4,
+              5
+            ]
+          }
+        },
+        "drawSizeWorldUnits": [
+          1.0,
+          1.5
+        ],
+        "origin": "bottom-center"
+      },
+      "battle": {
+        "file": "characters/battle/warrior_battle_128x192.png",
+        "frameWidth": 128,
+        "frameHeight": 192,
+        "columns": 8,
+        "rows": {
+          "idle": {
+            "row": 0,
+            "frames": 4,
+            "frameDuration": 0.12
+          },
+          "attack": {
+            "row": 1,
+            "frames": 6,
+            "frameDuration": 0.12
+          },
+          "skill": {
+            "row": 2,
+            "frames": 8,
+            "frameDuration": 0.12
+          },
+          "guard": {
+            "row": 3,
+            "frames": 4,
+            "frameDuration": 0.12
+          },
+          "hurt": {
+            "row": 4,
+            "frames": 3,
+            "frameDuration": 0.12
+          },
+          "defeat": {
+            "row": 5,
+            "frames": 6,
+            "frameDuration": 0.16
+          }
+        },
+        "facing": "right",
+        "opponentRendering": "flipX",
+        "origin": "bottom-center"
+      }
+    },
+    "mage": {
+      "topdown": {
+        "file": "characters/topdown/mage_topdown_64x96.png",
+        "frameWidth": 64,
+        "frameHeight": 96,
+        "columns": 6,
+        "rows": {
+          "down": {
+            "row": 0,
+            "idle": [
+              0,
+              1
+            ],
+            "walk": [
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "left": {
+            "row": 1,
+            "idle": [
+              0,
+              1
+            ],
+            "walk": [
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "right": {
+            "row": 2,
+            "idle": [
+              0,
+              1
+            ],
+            "walk": [
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "up": {
+            "row": 3,
+            "idle": [
+              0,
+              1
+            ],
+            "walk": [
+              2,
+              3,
+              4,
+              5
+            ]
+          }
+        },
+        "drawSizeWorldUnits": [
+          1.0,
+          1.5
+        ],
+        "origin": "bottom-center"
+      },
+      "battle": {
+        "file": "characters/battle/mage_battle_128x192.png",
+        "frameWidth": 128,
+        "frameHeight": 192,
+        "columns": 8,
+        "rows": {
+          "idle": {
+            "row": 0,
+            "frames": 4,
+            "frameDuration": 0.12
+          },
+          "attack": {
+            "row": 1,
+            "frames": 6,
+            "frameDuration": 0.12
+          },
+          "skill": {
+            "row": 2,
+            "frames": 8,
+            "frameDuration": 0.12
+          },
+          "guard": {
+            "row": 3,
+            "frames": 4,
+            "frameDuration": 0.12
+          },
+          "hurt": {
+            "row": 4,
+            "frames": 3,
+            "frameDuration": 0.12
+          },
+          "defeat": {
+            "row": 5,
+            "frames": 6,
+            "frameDuration": 0.16
+          }
+        },
+        "facing": "right",
+        "opponentRendering": "flipX",
+        "origin": "bottom-center"
+      }
+    },
+    "thief": {
+      "topdown": {
+        "file": "characters/topdown/thief_topdown_64x96.png",
+        "frameWidth": 64,
+        "frameHeight": 96,
+        "columns": 6,
+        "rows": {
+          "down": {
+            "row": 0,
+            "idle": [
+              0,
+              1
+            ],
+            "walk": [
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "left": {
+            "row": 1,
+            "idle": [
+              0,
+              1
+            ],
+            "walk": [
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "right": {
+            "row": 2,
+            "idle": [
+              0,
+              1
+            ],
+            "walk": [
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "up": {
+            "row": 3,
+            "idle": [
+              0,
+              1
+            ],
+            "walk": [
+              2,
+              3,
+              4,
+              5
+            ]
+          }
+        },
+        "drawSizeWorldUnits": [
+          1.0,
+          1.5
+        ],
+        "origin": "bottom-center"
+      },
+      "battle": {
+        "file": "characters/battle/thief_battle_128x192.png",
+        "frameWidth": 128,
+        "frameHeight": 192,
+        "columns": 8,
+        "rows": {
+          "idle": {
+            "row": 0,
+            "frames": 4,
+            "frameDuration": 0.12
+          },
+          "attack": {
+            "row": 1,
+            "frames": 6,
+            "frameDuration": 0.12
+          },
+          "skill": {
+            "row": 2,
+            "frames": 8,
+            "frameDuration": 0.12
+          },
+          "guard": {
+            "row": 3,
+            "frames": 4,
+            "frameDuration": 0.12
+          },
+          "hurt": {
+            "row": 4,
+            "frames": 3,
+            "frameDuration": 0.12
+          },
+          "defeat": {
+            "row": 5,
+            "frames": 6,
+            "frameDuration": 0.16
+          }
+        },
+        "facing": "right",
+        "opponentRendering": "flipX",
+        "origin": "bottom-center"
+      }
+    },
+    "grappler": {
+      "topdown": {
+        "file": "characters/topdown/grappler_topdown_64x96.png",
+        "frameWidth": 64,
+        "frameHeight": 96,
+        "columns": 6,
+        "rows": {
+          "down": {
+            "row": 0,
+            "idle": [
+              0,
+              1
+            ],
+            "walk": [
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "left": {
+            "row": 1,
+            "idle": [
+              0,
+              1
+            ],
+            "walk": [
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "right": {
+            "row": 2,
+            "idle": [
+              0,
+              1
+            ],
+            "walk": [
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "up": {
+            "row": 3,
+            "idle": [
+              0,
+              1
+            ],
+            "walk": [
+              2,
+              3,
+              4,
+              5
+            ]
+          }
+        },
+        "drawSizeWorldUnits": [
+          1.0,
+          1.5
+        ],
+        "origin": "bottom-center"
+      },
+      "battle": {
+        "file": "characters/battle/grappler_battle_128x192.png",
+        "frameWidth": 128,
+        "frameHeight": 192,
+        "columns": 8,
+        "rows": {
+          "idle": {
+            "row": 0,
+            "frames": 4,
+            "frameDuration": 0.12
+          },
+          "attack": {
+            "row": 1,
+            "frames": 6,
+            "frameDuration": 0.12
+          },
+          "skill": {
+            "row": 2,
+            "frames": 8,
+            "frameDuration": 0.12
+          },
+          "guard": {
+            "row": 3,
+            "frames": 4,
+            "frameDuration": 0.12
+          },
+          "hurt": {
+            "row": 4,
+            "frames": 3,
+            "frameDuration": 0.12
+          },
+          "defeat": {
+            "row": 5,
+            "frames": 6,
+            "frameDuration": 0.16
+          }
+        },
+        "facing": "right",
+        "opponentRendering": "flipX",
+        "origin": "bottom-center"
+      }
+    },
+    "cleric": {
+      "topdown": {
+        "file": "characters/topdown/cleric_topdown_64x96.png",
+        "frameWidth": 64,
+        "frameHeight": 96,
+        "columns": 6,
+        "rows": {
+          "down": {
+            "row": 0,
+            "idle": [
+              0,
+              1
+            ],
+            "walk": [
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "left": {
+            "row": 1,
+            "idle": [
+              0,
+              1
+            ],
+            "walk": [
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "right": {
+            "row": 2,
+            "idle": [
+              0,
+              1
+            ],
+            "walk": [
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "up": {
+            "row": 3,
+            "idle": [
+              0,
+              1
+            ],
+            "walk": [
+              2,
+              3,
+              4,
+              5
+            ]
+          }
+        },
+        "drawSizeWorldUnits": [
+          1.0,
+          1.5
+        ],
+        "origin": "bottom-center"
+      },
+      "battle": {
+        "file": "characters/battle/cleric_battle_128x192.png",
+        "frameWidth": 128,
+        "frameHeight": 192,
+        "columns": 8,
+        "rows": {
+          "idle": {
+            "row": 0,
+            "frames": 4,
+            "frameDuration": 0.12
+          },
+          "attack": {
+            "row": 1,
+            "frames": 6,
+            "frameDuration": 0.12
+          },
+          "skill": {
+            "row": 2,
+            "frames": 8,
+            "frameDuration": 0.12
+          },
+          "guard": {
+            "row": 3,
+            "frames": 4,
+            "frameDuration": 0.12
+          },
+          "hurt": {
+            "row": 4,
+            "frames": 3,
+            "frameDuration": 0.12
+          },
+          "defeat": {
+            "row": 5,
+            "frames": 6,
+            "frameDuration": 0.16
+          }
+        },
+        "facing": "right",
+        "opponentRendering": "flipX",
+        "origin": "bottom-center"
+      }
+    }
+  },
+  "enemies": {
+    "cave_slime": {
+      "topdown": {
+        "file": "enemies/topdown/cave_slime_topdown_64x96.png",
+        "frameWidth": 64,
+        "frameHeight": 96,
+        "columns": 4,
+        "rows": [
+          "down",
+          "left",
+          "right",
+          "up"
+        ]
+      },
+      "battle": {
+        "file": "enemies/battle/cave_slime_battle_128x192.png",
+        "frameWidth": 128,
+        "frameHeight": 192,
+        "columns": 8,
+        "rows": {
+          "idle": {
+            "row": 0,
+            "frames": 4
+          },
+          "attack": {
+            "row": 1,
+            "frames": 6
+          },
+          "hurt": {
+            "row": 2,
+            "frames": 3
+          },
+          "defeat": {
+            "row": 3,
+            "frames": 6
+          }
+        },
+        "facing": "right"
+      },
+      "displayName": "Recon Drone",
+      "archetype": "aerial combat drone",
+      "designPalette": [
+        "off-white",
+        "graphite",
+        "red",
+        "electric blue"
+      ],
+      "compatibilityId": "cave_slime"
+    },
+    "bone_sentinel": {
+      "topdown": {
+        "file": "enemies/topdown/bone_sentinel_topdown_64x96.png",
+        "frameWidth": 64,
+        "frameHeight": 96,
+        "columns": 4,
+        "rows": [
+          "down",
+          "left",
+          "right",
+          "up"
+        ]
+      },
+      "battle": {
+        "file": "enemies/battle/bone_sentinel_battle_128x192.png",
+        "frameWidth": 128,
+        "frameHeight": 192,
+        "columns": 8,
+        "rows": {
+          "idle": {
+            "row": 0,
+            "frames": 4
+          },
+          "attack": {
+            "row": 1,
+            "frames": 6
+          },
+          "hurt": {
+            "row": 2,
+            "frames": 3
+          },
+          "defeat": {
+            "row": 3,
+            "frames": 6
+          }
+        },
+        "facing": "right"
+      },
+      "displayName": "Aegis Robot",
+      "archetype": "humanoid security robot",
+      "designPalette": [
+        "off-white",
+        "graphite",
+        "red",
+        "electric blue"
+      ],
+      "compatibilityId": "bone_sentinel"
+    },
+    "abyss_mage": {
+      "topdown": {
+        "file": "enemies/topdown/abyss_mage_topdown_64x96.png",
+        "frameWidth": 64,
+        "frameHeight": 96,
+        "columns": 4,
+        "rows": [
+          "down",
+          "left",
+          "right",
+          "up"
+        ]
+      },
+      "battle": {
+        "file": "enemies/battle/abyss_mage_battle_128x192.png",
+        "frameWidth": 128,
+        "frameHeight": 192,
+        "columns": 8,
+        "rows": {
+          "idle": {
+            "row": 0,
+            "frames": 4
+          },
+          "attack": {
+            "row": 1,
+            "frames": 6
+          },
+          "hurt": {
+            "row": 2,
+            "frames": 3
+          },
+          "defeat": {
+            "row": 3,
+            "frames": 6
+          }
+        },
+        "facing": "right"
+      },
+      "displayName": "Helix Cyborg",
+      "archetype": "human cyborg operative",
+      "designPalette": [
+        "off-white",
+        "graphite",
+        "red",
+        "electric blue"
+      ],
+      "compatibilityId": "abyss_mage"
+    },
+    "floor_warden": {
+      "topdown": {
+        "file": "enemies/topdown/floor_warden_topdown_64x96.png",
+        "frameWidth": 64,
+        "frameHeight": 96,
+        "columns": 4,
+        "rows": [
+          "down",
+          "left",
+          "right",
+          "up"
+        ]
+      },
+      "battle": {
+        "file": "enemies/battle/floor_warden_battle_128x192.png",
+        "frameWidth": 128,
+        "frameHeight": 192,
+        "columns": 8,
+        "rows": {
+          "idle": {
+            "row": 0,
+            "frames": 4
+          },
+          "attack": {
+            "row": 1,
+            "frames": 6
+          },
+          "hurt": {
+            "row": 2,
+            "frames": 3
+          },
+          "defeat": {
+            "row": 3,
+            "frames": 6
+          }
+        },
+        "facing": "right"
+      },
+      "displayName": "Enhanced Warden",
+      "archetype": "enhanced human elite",
+      "designPalette": [
+        "off-white",
+        "graphite",
+        "red",
+        "electric blue"
+      ],
+      "compatibilityId": "floor_warden"
+    }
+  },
+  "enemyVisualTheme": "utopian science-fiction"
+}
